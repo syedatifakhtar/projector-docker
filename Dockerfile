@@ -125,13 +125,13 @@ RUN true \
 
 USER $PROJECTOR_USER_NAME
 
-# Install sbt plugins
-
-RUN mkdir -p /home/$PROJECTOR_USER_NAME/.IdeaIC2019.3/config/plugins && \
-    wget -qO-  https://plugins.jetbrains.com/files/$(curl https://plugins.jetbrains.com/api/plugins/1347/updates | jq -r '.[] | select(.version | startswith("2020.3")) | .file') | bsdtar -xvf- -C ~/.IdeaIC2019.3/config/plugins
-
 # Set project
 RUN cd ~ && git clone https://github.com/syedatifakhtar/spark-scala-tutorial.git && cd spark-scala-tutorial && sbt compile
+
+# Install sbt plugins
+
+RUN mkdir -p ~/.local/share/JetBrains/IdeaIC2020.3 && \
+    wget -qO-  https://plugins.jetbrains.com/files/$(curl https://plugins.jetbrains.com/api/plugins/1347/updates | jq -r '.[] | select(.version | startswith("2020.3")) | .file') | bsdtar -xvf- -C  ~/.local/share/JetBrains/IdeaIC2020.3
 
 ENV HOME /home/$PROJECTOR_USER_NAME
 
