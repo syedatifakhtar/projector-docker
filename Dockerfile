@@ -94,6 +94,15 @@ RUN true \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt
 
+#Install sbt and scala & Idea Plugins
+RUN apt-get update -y && apt-get install -y gnupg2 &&  apt-get install -y wget && apt-get install -y curl && \
+    echo "deb https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
+    echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee /etc/apt/sources.list.d/sbt_old.list && \
+    curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add && \
+    apt-get update && apt-get install -y sbt && \
+    apt-get install -y bsdtar && \
+    apt-get install -y jq && apt-get install -y openjdk-11-jdk
+
 # copy the Projector dir:
 ENV PROJECTOR_DIR /projector
 COPY --from=projectorStaticFiles $PROJECTOR_DIR $PROJECTOR_DIR
@@ -115,6 +124,15 @@ RUN true \
     && chown $PROJECTOR_USER_NAME.$PROJECTOR_USER_NAME run.sh
 
 USER $PROJECTOR_USER_NAME
+
+# Install sbt plugins
+
+RUN mkdir -p /home/$PROJECTOR_USER_NAME/.IdeaIC2019.3/config/plugins && \
+    wget -qO-  https://plugins.jetbrains.com/files/$(curl https://plugins.jetbrains.com/api/plugins/1347/updates | jq -r '.[] | select(.version | startswith("2020.3")) | .file') | bsdtar -xvf- -C ~/.IdeaIC2019.3/config/plugins
+
+# Set project
+RUN cd ~ && git clone https://github.com/syedatifakhtar/spark-scala-tutorial.git && cd spark-scala-tutorial && sbt compile
+
 ENV HOME /home/$PROJECTOR_USER_NAME
 
 EXPOSE 8887

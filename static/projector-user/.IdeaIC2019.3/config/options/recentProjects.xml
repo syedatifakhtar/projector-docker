@@ -17,7 +17,7 @@
     <component name="RecentProjectsManager">
         <option name="additionalInfo">
             <map>
-                <entry key="$USER_HOME$/DemoProject">
+                <entry key="$USER_HOME$/spark-scala-tutorial">
                     <value>
                         <RecentProjectMetaInfo opened="true" projectWorkspaceId="1YIGAPrg2L8B5jDSfYv4UolAdNP">
                             <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin"/>
@@ -33,7 +33,7 @@
         <option name="lastProjectLocation" value="$USER_HOME$"/>
         <option name="recentPaths">
             <list>
-                <option value="$USER_HOME$/DemoProject"/>
+                <option value="$USER_HOME$/spark-scala-tutorial"/>
             </list>
         </option>
     </component>
